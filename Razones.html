@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Amor - Razones</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'rose-50': '#faf8f3',
+                        'rose-100': '#f2e8db',
+                        'rose-300': '#d4a574',
+                        'rose-500': '#a0714f',
+                        'rose-700': '#6b4423',
+                        'rose-900': '#4a2f1a',
+                        'champagne': '#f5ead2',
+                        'sepia': '#8b5a3c',
+                    },
+                    fontFamily: {
+                        'serif': ['"Cormorant Garamond"', 'serif'],
+                        'display': ['"Cormorant Garamond"', 'serif'],
+                        'text': ['"Crimson Text"', 'serif'],
+                        'sans': ['"Crimson Text"', 'serif'],
+                        'cinzel': ['"Cinzel"', 'serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                        'heartbeat': 'heartbeat 1.5s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        heartbeat: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #faf8f3;
+            background-image: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 69, 19, 0.02) 2px,
+                    rgba(139, 69, 19, 0.02) 4px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 69, 19, 0.02) 2px,
+                    rgba(139, 69, 19, 0.02) 4px
+                );
+        }
+
+        /* Estilos para el texto central que cambia */
+        .reason-text {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reason-text.hidden-state {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        /* Estilos para las tarjetas que se voltean */
+        .perspective {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            text-align: center;
+            font-family: 'Crimson Text', serif;
+        }
+        .flip-card-front {
+            background-color: #fffbf7;
+            color: #6b4423;
+            border: 1px solid #e8dcc8;
+        }
+        .flip-card-back {
+            background: linear-gradient(135deg, #8b5a3c 0%, #5c3d2e 100%);
+            color: #fffbf7;
+            transform: rotateY(180deg);
+            font-style: italic;
+        }
+
+        /* Pétalos flotantes decorativos */
+        .petal {
+            position: fixed;
+            background-color: #d4a574;
+            border-radius: 150% 0 150% 0;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 min-h-screen relative overflow-x-hidden">
+
+    <!-- Decoración de fondo -->
+    <div id="petals-container"></div>
+
+    <main class="container mx-auto px-4 py-12 max-w-4xl relative z-10">
+        
+        <header class="text-center mb-16 animate-fade-in">
+            <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl text-rose-900 mb-2 font-light tracking-wide" style="font-family: 'Cormorant Garamond', serif;">
+                Cien Razones para Amarte
+            </h1>
+            <div class="h-0.5 w-20 bg-gradient-to-r from-transparent via-rose-300 to-transparent mx-auto mb-6"></div>
+            <p class="text-lg md:text-xl text-rose-700 italic font-text" style="font-family: 'Crimson Text', serif;">
+                Un pequeño rincón dedicado a todo lo que me haces sentir...
+            </p>
+            <div class="mt-6 text-rose-700 text-3xl animate-heartbeat inline-block">
+                ❤️
+            </div>
+        </header>
+
+        <section class="mb-24 animate-slide-up" style="animation-delay: 0.2s;">
+            <div class="max-w-2xl mx-auto bg-rose-50 rounded-lg shadow-2xl overflow-hidden border border-rose-100" style="box-shadow: 0 10px 30px rgba(139, 69, 19, 0.2);">
+                <div class="bg-gradient-to-r from-rose-100 to-rose-50 p-8 text-center border-b border-rose-100">
+                    <h2 class="text-2xl text-rose-900 font-light tracking-wide" style="font-family: 'Cormorant Garamond', serif;">Descubre por qué...</h2>
+                </div>
+                
+                <div class="p-10 md:p-14 text-center min-h-[280px] flex flex-col justify-center items-center relative bg-fffbf7">
+                    <!-- Decoración esquinas -->
+                    <span class="absolute top-8 left-8 text-5xl text-rose-200 opacity-60 font-serif">"</span>
+                    <span class="absolute bottom-8 right-8 text-5xl text-rose-200 opacity-60 font-serif">"</span>
+                    
+                    <p id="central-reason-text" class="reason-text text-2xl md:text-3xl text-rose-900 leading-relaxed italic font-light" style="font-family: 'Crimson Text', serif;">
+                        "Presiona el botón para descubrir la primera razón."
+                    </p>
+                </div>
+                
+                <div class="bg-rose-50 p-6 flex justify-center border-t border-rose-100">
+                    <button id="next-reason-btn" class="group relative px-8 py-3 bg-rose-700 hover:bg-rose-900 text-white font-light rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-rose-300" style="font-family: 'Crimson Text', serif;">
+                        <span class="flex items-center gap-2">
+                            <span>Siguiente Razón</span>
+                            <span class="transition-transform group-hover:translate-x-1">→</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="animate-slide-up" style="animation-delay: 0.4s;">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl text-rose-900 mb-3 font-light tracking-wide" style="font-family: 'Cormorant Garamond', serif;">Pequeños Detalles</h2>
+                <p class="text-rose-700 font-text" style="font-family: 'Crimson Text', serif;">Haz clic en cada tarjeta para descubrir más secretos de mi corazón.</p>
+            </div>
+
+            <!-- El contenedor de la cuadrícula -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6" id="grid-container">
+                <!-- Las tarjetas se inyectarán aquí mediante JS -->
+            </div>
+        </section>
+
+        <footer class="mt-24 text-center pb-8 opacity-80">
+            <p class="text-rose-700 text-xl italic mb-3 font-light" style="font-family: 'Crimson Text', serif;">Con todo mi amor, siempre.</p>
+            <span class="text-rose-300 text-lg">🌿</span>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- 1. DATOS: Edita estas listas con tus propias razones ---
+        
+        // Razones para la tarjeta central principal (más largas/profundas)
+        const centralReasons = [
+            "Porque tu sonrisa ilumina hasta mi día más gris.",
+            "Por la forma en que me miras, haciéndome sentir la persona más especial del mundo.",
+            "Porque me apoyas incondicionalmente en cada uno de mis sueños.",
+            "Por tus abrazos, que son mi refugio favorito.",
+            "Porque contigo puedo ser yo mismo, sin miedos ni filtros.",
+            "Por tu inteligencia y la forma en que ves el mundo.",
+            "Porque haces que los momentos simples sean extraordinarios.",
+            "Por tu risa contagiosa que llena de alegría cualquier lugar.",
+            "Porque me inspiras a ser una mejor versión de mí cada día.",
+            "Por la forma en que nuestras manos encajan perfectamente."
+        ];
+
+        // Razones para las tarjetas pequeñas de la cuadrícula (más breves)
+        const gridReasons = [
+            "Tus ojos.",
+            "Tu voz al despertar.",
+            "Cómo te ríes de mis malos chistes.",
+            "Tu olor dulce.",
+            "Tu ternura.",
+            "Lo valiente que eres.",
+            "Nuestras charlas largas.",
+            "Cómo te concentras.",
+            "Tu sentido del humor.",
+            "Cuando cantas bajito.",
+            "Tu forma de caminar.",
+            "Tus besos inesperados."
+        ];
+
+        // --- 2. Lógica de la Tarjeta Central ---
+        const reasonTextElement = document.getElementById('central-reason-text');
+        const nextButton = document.getElementById('next-reason-btn');
+        let currentReasonIndex = -1;
+
+        function showNextReason() {
+            // Añadir clase para ocultar con transición
+            reasonTextElement.classList.add('hidden-state');
+            
+            setTimeout(() => {
+                // Seleccionar una razón aleatoria que no sea la actual
+                let newIndex = currentReasonIndex;
+                while (newIndex === currentReasonIndex) {
+                    newIndex = Math.floor(Math.random() * centralReasons.length);
+                }
+                currentReasonIndex = newIndex;
+                
+                // Actualizar texto
+                reasonTextElement.innerText = `"${centralReasons[currentReasonIndex]}"`;
+                
+                // Quitar clase para mostrar con transición
+                reasonTextElement.classList.remove('hidden-state');
+            }, 500); // Esperar a que termine la transición de opacidad (mitad de 1s, configurado en 0.5s en css)
+        }
+
+        nextButton.addEventListener('click', showNextReason);
+
+        // --- 3. Lógica de la Cuadrícula (Tarjetas Volteables) ---
+        const gridContainer = document.getElementById('grid-container');
+
+        function createGridCards() {
+            gridReasons.forEach((reason, index) => {
+                // Crear contenedor de la tarjeta
+                const cardOuter = document.createElement('div');
+                cardOuter.className = 'perspective h-32 md:h-40 w-full animate-fade-in';
+                cardOuter.style.animationDelay = `${(index * 0.1) + 0.5}s`;
+
+                // Crear elemento flip
+                const flipCard = document.createElement('div');
+                flipCard.className = 'flip-card w-full h-full';
+
+                // Crear interior
+                const inner = document.createElement('div');
+                inner.className = 'flip-card-inner';
+
+                // Frente de la tarjeta
+                const front = document.createElement('div');
+                front.className = 'flip-card-front';
+                front.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <span class="text-3xl mb-2">💕</span>
+                        <span class="text-sm font-medium text-gray-400">Razón #${index + 1}</span>
+                    </div>
+                `;
+
+                // Reverso de la tarjeta
+                const back = document.createElement('div');
+                back.className = 'flip-card-back';
+                back.innerHTML = `
+                    <p class="font-serif text-sm md:text-base leading-snug">${reason}</p>
+                `;
+
+                // Ensamblar
+                inner.appendChild(front);
+                inner.appendChild(back);
+                flipCard.appendChild(inner);
+                cardOuter.appendChild(flipCard);
+                gridContainer.appendChild(cardOuter);
+
+                // Agregar evento de clic para voltear
+                cardOuter.addEventListener('click', () => {
+                    flipCard.classList.toggle('flipped');
+                });
+            });
+        }
+
+        // --- 4. Detalles Visuales (Pétalos de fondo) ---
+        function createPetals() {
+            const container = document.getElementById('petals-container');
+            const petalCount = 15;
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal animate-float';
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 15 + 10; // entre 10 y 25px
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size}px`;
+                
+                // Posición inicial aleatoria
+                petal.style.left = `${Math.random() * 100}vw`;
+                petal.style.top = `${Math.random() * 100}vh`;
+                
+                // Rotación aleatoria
+                petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                // Retraso y duración de animación aleatorios
+                petal.style.animationDelay = `${Math.random() * 5}s`;
+                petal.style.animationDuration = `${Math.random() * 4 + 4}s`; // entre 4 y 8s
+                
+                container.appendChild(petal);
+            }
+        }
+
+        // --- Inicialización al cargar la página ---
+        window.addEventListener('DOMContentLoaded', () => {
+            createGridCards();
+            createPetals();
+            
+            // Iniciar la primera razón automáticamente después de un momento
+            setTimeout(() => {
+                showNextReason();
+            }, 1000);
+        });
+
+    </script>
+</body>
+</html>
